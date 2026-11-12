@@ -155,7 +155,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     try {
-      const response = await fetch('/api/contact', {
+      const apiBase = window.DORMIWAY_API_BASE ||
+        ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3001' : '');
+      const response = await fetch(`${apiBase}/api/contact`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload),

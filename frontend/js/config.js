@@ -6,10 +6,9 @@
   'use strict';
 
   var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-
-  // Replace the production URL below with your deployed Express + MongoDB backend URL
-  window.DORMIWAY_API_BASE = window.DORMIWAY_API_BASE || (
-    isLocal ? 'http://localhost:3001' : 'https://dormiway-api.onrender.com'
+  var rawBase = window.DORMIWAY_API_BASE || (
+    isLocal ? 'http://localhost:3001' : 'https://dormiway-backend.vercel.app'
   );
+  window.DORMIWAY_API_BASE = rawBase.replace(/\/+$/, '');
 }());
 
