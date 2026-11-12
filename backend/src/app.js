@@ -12,7 +12,7 @@ const app = express();
 
 /* ── CORS ── */
 const rawOrigins = (process.env.ALLOWED_ORIGIN || '*').split(',').map((o) => o.trim()).filter(Boolean);
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || rawOrigins.includes('*') || rawOrigins.includes(origin)) {
       return callback(null, true);
@@ -22,7 +22,10 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-}));
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 /* ── Body parsers ── */
 app.use(express.json({ limit: '10kb' }));
