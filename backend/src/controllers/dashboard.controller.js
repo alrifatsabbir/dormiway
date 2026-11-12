@@ -48,6 +48,9 @@ async function getDashboardOverview(req, res) {
     const thisMonthBookings = monthRevenueStats?.totalBookings || 0;
     const thisMonthRevenue = monthRevenueStats?.totalRevenue || 0;
 
+    const occupiedRooms = occupancyData?.occupiedRooms || 0;
+    const computedAvailableRooms = Math.max(0, (totalRooms || 0) - occupiedRooms);
+
     return res.status(200).json({
       totalBookings: totalBookings || 0,
       totalRevenue: totalRevenue || 0,
@@ -58,8 +61,8 @@ async function getDashboardOverview(req, res) {
       todayCheckIns: todayCheckIns || 0,
       todayCheckOuts: todayCheckOuts || 0,
       totalRooms: totalRooms || 0,
-      availableRooms: availableRooms || 0,
-      occupiedRooms: occupancyData?.occupiedRooms || 0,
+      availableRooms: computedAvailableRooms,
+      occupiedRooms,
       pendingPayments: pendingPayments || 0,
       totalGuests: totalGuests || 0,
     });
