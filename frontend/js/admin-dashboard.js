@@ -100,12 +100,13 @@ function renderArrivalsTable(checkIns) {
 
   tbody.innerHTML = checkIns
     .map((row) => {
-      const guestName = [row.firstName, row.lastName].filter(Boolean).join(' ') || row.email || 'Guest';
+      const guestName = row.guestName || [row.firstName, row.lastName].filter(Boolean).join(' ') || row.email || 'Guest';
+      const checkIn = row.checkInDate || row.check_in_date || '—';
       return `
         <tr class="border-b border-[#F3EFE9]">
           <td class="py-3 pr-4 font-medium text-[#1A1714]">${escHtml(guestName)}</td>
           <td class="py-3 pr-4 text-[#6B6460]">${escHtml(row.roomName || 'Suite')}</td>
-          <td class="py-3 pr-4 text-[#6B6460]">${escHtml(row.check_in_date || '—')}</td>
+          <td class="py-3 pr-4 text-[#6B6460]">${escHtml(checkIn)}</td>
           <td class="py-3"><span class="inline-block rounded-full bg-[#F5EFE0] px-2.5 py-0.5 text-[11px] font-medium text-[#7A6248] capitalize">${escHtml(row.status || 'pending')}</span></td>
         </tr>
       `;

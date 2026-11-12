@@ -88,6 +88,7 @@ async function createBooking(bookingData) {
 async function findBookingById(bookingId) {
   if (!mongoose.Types.ObjectId.isValid(bookingId)) return null;
   const doc = await Booking.findById(bookingId)
+    .populate('user_id', 'firstName lastName email phone')
     .populate('room_id', 'name type price_per_night')
     .lean();
   return formatBooking(doc);

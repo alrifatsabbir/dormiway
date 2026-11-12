@@ -81,12 +81,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       tbody.innerHTML = bookings
         .map((b) => {
           const canCancel = ['pending', 'confirmed'].includes(b.status);
+          const bookingNo = b.bookingNumber || b.booking_number || '—';
+          const checkIn = b.checkInDate || b.check_in_date || '—';
+          const checkOut = b.checkOutDate || b.check_out_date || '—';
+          const total = Number(b.totalPrice ?? b.total_price ?? 0);
           return `
             <tr class="border-b border-[#F3EFE9]">
-              <td class="py-3 pr-4 font-medium">${esc(b.booking_number)}</td>
+              <td class="py-3 pr-4 font-medium">${esc(bookingNo)}</td>
               <td class="py-3 pr-4 text-[#6B6460]">${esc(b.roomName || 'Suite')}</td>
-              <td class="py-3 pr-4 text-xs text-[#6B6460]">${esc(b.check_in_date)} → ${esc(b.check_out_date)}</td>
-              <td class="py-3 pr-4 font-medium">$${Number(b.total_price || 0).toLocaleString()}</td>
+              <td class="py-3 pr-4 text-xs text-[#6B6460]">${esc(checkIn)} → ${esc(checkOut)}</td>
+              <td class="py-3 pr-4 font-medium">$${total.toLocaleString()}</td>
               <td class="py-3 pr-4"><span class="rounded-full bg-[#F5EFE0] px-2.5 py-0.5 text-[11px] font-medium text-[#7A6248] capitalize">${esc(b.status)}</span></td>
               <td class="py-3 text-right">
                 ${canCancel ? `<button data-cancel-booking="${esc(b.id)}" class="cursor-pointer text-xs text-red-700 hover:underline">Cancel</button>` : '—'}
@@ -128,8 +132,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       tbody.innerHTML = payments
         .map((p) => `
           <tr class="border-b border-[#F3EFE9]">
-            <td class="py-3 pr-4 font-medium">${esc(p.transaction_id)}</td>
-            <td class="py-3 pr-4 text-[#6B6460]">${esc(p.booking_number || '—')}</td>
+            <td class="py-3 pr-4 font-medium">${esc(p.transactionId || p.transaction_id || '—')}</td>
+            <td class="py-3 pr-4 text-[#6B6460]">${esc(p.bookingNumber || p.booking_number || '—')}</td>
             <td class="py-3 pr-4 text-[#6B6460]">${esc(p.roomName || 'Suite')}</td>
             <td class="py-3 pr-4 font-medium">$${Number(p.amount || 0).toLocaleString()}</td>
             <td class="py-3"><span class="rounded-full bg-[#F5EFE0] px-2.5 py-0.5 text-[11px] font-medium text-[#7A6248] capitalize">${esc(p.status)}</span></td>

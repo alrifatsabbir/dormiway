@@ -115,6 +115,20 @@ async function createNewBooking(req, res) {
       checkOutDate
     );
 
+    /* ── Create pending payment record so it appears in Payments & Dashboard ── */
+    try {
+      const { createPayment } = require('../models/payment.model');
+      await createPayment({
+        bookingId: booking.id,
+        transactionId: `TXN-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        amount: totalPrice,
+        paymentMethod: 'card',
+        status: 'pending',
+      });
+    } catch (payErr) {
+      console.error('[Bookings] Failed to create initial payment:', payErr.message);
+    }
+
     return res.status(201).json({
       id: booking.id,
       userId,
@@ -577,6 +591,24 @@ async function updateReservationStatus(req, res) {
     }
 
     await updateBookingStatus(String(id), status, notes);
+
+    /* ── Sync associated payment status ── */
+    try {
+      const { Payment } = require('../models/payment.model');
+      if (['confirmed', 'checked_in', 'completed'].includes(status)) {
+        await Payment.updateMany(
+          { booking_id: String(id), status: 'pending' },
+          { status: 'completed', paid_at: new Date() }
+        );
+      } else if (status === 'cancelled') {
+        await Payment.updateMany(
+          { booking_id: String(id), status: 'pending' },
+          { status: 'failed' }
+        );
+      }
+    } catch (payErr) {
+      console.error('[Bookings] Payment sync error:', payErr.message);
+    }
 
     return res.status(200).json({
       id: String(id),

@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const q = (searchBox?.value || '').trim().toLowerCase();
     const filtered = rows.filter((b) => {
       if (!q) return true;
-      const guest = [b.firstName, b.lastName, b.email].filter(Boolean).join(' ').toLowerCase();
+      const guest = (b.guestName || [b.firstName, b.lastName, b.email].filter(Boolean).join(' ')).toLowerCase();
+      const num = String(b.bookingNumber || b.booking_number || '').toLowerCase();
       return (
-        String(b.booking_number || '').toLowerCase().includes(q) ||
+        num.includes(q) ||
         guest.includes(q) ||
         String(b.roomName || '').toLowerCase().includes(q)
       );
@@ -29,14 +30,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tbody.innerHTML = filtered
       .map((b) => {
-        const guest = [b.firstName, b.lastName].filter(Boolean).join(' ') || b.email || 'Guest';
+        const guest = b.guestName || [b.firstName, b.lastName].filter(Boolean).join(' ') || b.email || 'Guest';
+        const bookingNo = b.bookingNumber || b.booking_number || '—';
+        const checkIn = b.checkInDate || b.check_in_date || '—';
+        const checkOut = b.checkOutDate || b.check_out_date || '—';
+        const total = Number(b.totalPrice ?? b.total_price ?? 0);
         return `
           <tr class="border-b border-[#F3EFE9]">
-            <td class="py-3 pr-4 font-medium text-[#1A1714]">${esc(b.booking_number)}</td>
+            <td class="py-3 pr-4 font-medium text-[#1A1714]">${esc(bookingNo)}</td>
             <td class="py-3 pr-4 text-[#1A1714]">${esc(guest)}</td>
             <td class="py-3 pr-4 text-[#6B6460]">${esc(b.roomName || 'Suite')}</td>
-            <td class="py-3 pr-4 text-xs text-[#6B6460]">${esc(b.check_in_date)} → ${esc(b.check_out_date)}</td>
-            <td class="py-3 pr-4 font-medium text-[#1A1714]">$${Number(b.total_price || 0).toLocaleString()}</td>
+            <td class="py-3 pr-4 text-xs text-[#6B6460]">${esc(checkIn)} → ${esc(checkOut)}</td>
+            <td class="py-3 pr-4 font-medium text-[#1A1714]">$${total.toLocaleString()}</td>
             <td class="py-3 pr-4">
               <select data-booking-status="${esc(b.id)}" class="border border-[#E8E2D8] bg-[#FAF8F5] px-2 py-1 text-xs text-[#1A1714]">
                 ${['pending', 'confirmed', 'checked_in', 'completed', 'cancelled']
