@@ -58,11 +58,13 @@ async function listRooms(req, res) {
       type: room.type,
       description: room.description,
       price: room.price_per_night,
+      price_per_night: room.price_per_night,
       capacity: room.capacity,
       amenities: toArray(room.amenities),
       images: toArray(room.images),
       rating: room.rating || 0,
-      available: room.is_available
+      available: room.is_available,
+      is_available: room.is_available
     }));
 
     return res.status(200).json({
@@ -98,11 +100,13 @@ async function getRoomDetails(req, res) {
       type: room.type,
       description: room.description,
       price: room.price_per_night,
+      price_per_night: room.price_per_night,
       capacity: room.capacity,
       amenities: toArray(room.amenities),
       images: toArray(room.images),
       rating: room.rating || 0,
       available: room.is_available,
+      is_available: room.is_available,
       createdAt: room.created_at
     });
 

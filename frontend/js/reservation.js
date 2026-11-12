@@ -97,10 +97,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         roomEl.innerHTML = '';
         roomsMap = {};
         rooms.forEach((r) => {
+          const nightly = Number(r.price ?? r.price_per_night ?? 0);
           roomsMap[r.id] = r;
           const opt = document.createElement('option');
           opt.value = r.id;
-          opt.textContent = `${r.name} ($${r.price_per_night} / night)`;
+          opt.textContent = `${r.name} ($${nightly} / night)`;
           roomEl.appendChild(opt);
         });
 
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         return {
           id: val,
           name: roomsMap[val].name,
-          rate: Number(roomsMap[val].price_per_night || 0),
+          rate: Number(roomsMap[val].price ?? roomsMap[val].price_per_night ?? 0),
         };
       }
       const parts = val.split('|');

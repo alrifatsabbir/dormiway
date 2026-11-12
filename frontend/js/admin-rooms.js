@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <div>
               <div class="flex items-center justify-between">
                 <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">${esc(r.type)}</span>
-                <span class="rounded-full bg-[#F5EFE0] px-2.5 py-0.5 text-[11px] font-medium text-[#7A6248]">${r.is_available ? 'Available' : 'Unavailable'}</span>
+                <span class="rounded-full bg-[#F5EFE0] px-2.5 py-0.5 text-[11px] font-medium text-[#7A6248]">${(r.available ?? r.is_available) ? 'Available' : 'Unavailable'}</span>
               </div>
               <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">${esc(r.name)}</h2>
               <p class="mt-1 text-xs text-[#6B6460]">${esc(r.description || 'No description')}</p>
             </div>
             <div class="mt-5 flex items-center justify-between border-t border-[#F3EFE9] pt-4 text-xs">
-              <span class="font-medium text-[#1A1714]">$${Number(r.price_per_night || 0)} / night · ${r.capacity} guests</span>
+              <span class="font-medium text-[#1A1714]">$${Number(r.price ?? r.price_per_night ?? 0)} / night · ${r.capacity} guests</span>
               <button data-delete-room="${esc(r.id)}" class="cursor-pointer text-red-700 hover:underline">Delete</button>
             </div>
           </article>
