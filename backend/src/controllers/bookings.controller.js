@@ -88,9 +88,11 @@ async function createNewBooking(req, res) {
       });
     }
 
-    /* ── Calculate nights and total price ── */
+    /* ── Calculate nights and total price (base rate for 1 guest + 25% per extra guest) ── */
+    const guestCount = parseInt(guests, 10);
     const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-    const totalPrice = nights * room.price_per_night;
+    const effectiveNightly = room.price_per_night * (1 + Math.max(0, guestCount - 1) * 0.25);
+    const totalPrice = Math.round(nights * effectiveNightly);
 
     /* ── Create booking ── */
     const booking = await createBooking({

@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const summaryRoomName = document.getElementById('summaryRoomName');
     const summaryRate = document.getElementById('summaryRate');
+    const summaryGuestFee = document.getElementById('summaryGuestFee');
     const summaryNights = document.getElementById('summaryNights');
     const summaryTotal = document.getElementById('summaryTotal');
 
@@ -139,16 +140,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function updateSummary() {
       const info = getSelectedRoomInfo();
+      const guestCount = parseInt(guestsEl.value, 10) || 1;
       let nights = 1;
       if (checkinEl.value && checkoutEl.value && checkoutEl.value > checkinEl.value) {
         const diffMs = new Date(checkoutEl.value) - new Date(checkinEl.value);
         nights = Math.max(1, Math.round(diffMs / (1000 * 60 * 60 * 24)));
       }
 
+      const baseTotal = info.rate * nights;
+      const guestFee = Math.round(baseTotal * Math.max(0, guestCount - 1) * 0.25);
+      const total = baseTotal + guestFee;
+
       summaryRoomName.textContent = info.name;
       summaryRate.textContent = '$' + info.rate;
+      if (summaryGuestFee) summaryGuestFee.textContent = '$' + guestFee;
       summaryNights.textContent = String(nights);
-      summaryTotal.textContent = '$' + (info.rate * nights);
+      summaryTotal.textContent = '$' + total;
     }
 
     checkinEl.addEventListener('change', function () {
@@ -160,6 +167,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     checkoutEl.addEventListener('change', updateSummary);
     roomEl.addEventListener('change', updateSummary);
+    guestsEl.addEventListener('change', updateSummary);
 
     await loadRoomsFromApi();
 
