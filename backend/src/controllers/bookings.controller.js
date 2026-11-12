@@ -41,7 +41,7 @@ async function createNewBooking(req, res) {
     return res.status(400).json({ message: 'Room ID, check-in date, check-out date, and guest count are required.' });
   }
 
-  if (isNaN(roomId) || isNaN(guests) || guests < 1) {
+  if (!roomId || isNaN(guests) || Number(guests) < 1) {
     return res.status(400).json({ message: 'Invalid room ID or guest count.' });
   }
 

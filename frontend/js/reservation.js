@@ -1,8 +1,10 @@
 /* ============================================================
-   RESERVATION.JS — Reservation form, summary & confirmation
+   RESERVATION.JS — Live MongoDB Room Loading & Booking Submit
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+  const apiBase = window.DORMIWAY_API_BASE ||
+    ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3001' : '');
 
   // 1. Sticky header shadow on scroll
   const header = document.getElementById('reservationHeader');
@@ -15,12 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // 2. Mobile navigation toggle
   const toggleBtn = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('navMobile');
-
   if (toggleBtn && mobileMenu) {
     toggleBtn.addEventListener('click', function () {
       mobileMenu.classList.toggle('open');
     });
-
     mobileMenu.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         mobileMenu.classList.remove('open');
@@ -66,46 +66,88 @@ document.addEventListener('DOMContentLoaded', function () {
     const today = new Date().toISOString().split('T')[0];
     checkinEl.min = today;
 
-    // Pre-fill from URL params
     const params = new URLSearchParams(window.location.search);
     if (params.get('checkin')) checkinEl.value = params.get('checkin');
     if (params.get('checkout')) checkoutEl.value = params.get('checkout');
-    if (params.get('guests') && guestsEl) guestsEl.value = params.get('guests');
-
-    const paramRoom = params.get('room') || params.get('roomType');
-    if (paramRoom) {
-      for (let i = 0; i < roomEl.options.length; i++) {
-        if (roomEl.options[i].value.toLowerCase().includes(paramRoom.toLowerCase())) {
-          roomEl.selectedIndex = i;
-          break;
-        }
-      }
+    if (params.get('guests') && guestsEl) {
+      guestsEl.value = params.get('guests') === '4+' ? '4' : params.get('guests');
     }
 
     // Pre-fill signed-in user info
     if (window.DormiwayUserAuth) {
       const user = window.DormiwayUserAuth.getUser();
       if (user) {
-        if (user.name && !nameEl.value) nameEl.value = user.name;
+        const fullName = [user.firstName, user.lastName].filter((v) => v && v !== '-').join(' ') || user.name || '';
+        if (fullName && !nameEl.value) nameEl.value = fullName;
         if (user.email && !emailEl.value) emailEl.value = user.email;
+        if (user.phone && !phoneEl.value) phoneEl.value = user.phone;
       }
     }
 
-    function updateSummary() {
-      const parts = roomEl.value.split('|');
-      const roomName = parts[0] || 'Suite';
-      const rate = Number(parts[1] || 0);
+    let roomsMap = {};
 
+    async function loadRoomsFromApi() {
+      try {
+        const res = await fetch(`${apiBase}/api/rooms?limit=100`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const rooms = data.rooms || [];
+        if (!rooms.length) return;
+
+        roomEl.innerHTML = '';
+        roomsMap = {};
+        rooms.forEach((r) => {
+          roomsMap[r.id] = r;
+          const opt = document.createElement('option');
+          opt.value = r.id;
+          opt.textContent = `${r.name} ($${r.price_per_night} / night)`;
+          roomEl.appendChild(opt);
+        });
+
+        const paramRoom = params.get('room') || params.get('roomType');
+        if (paramRoom) {
+          for (let i = 0; i < roomEl.options.length; i++) {
+            if (roomEl.options[i].textContent.toLowerCase().includes(paramRoom.toLowerCase())) {
+              roomEl.selectedIndex = i;
+              break;
+            }
+          }
+        }
+      } catch (e) {
+        // Fallback to static options if offline
+      }
+      updateSummary();
+    }
+
+    function getSelectedRoomInfo() {
+      const val = roomEl.value;
+      if (roomsMap[val]) {
+        return {
+          id: val,
+          name: roomsMap[val].name,
+          rate: Number(roomsMap[val].price_per_night || 0),
+        };
+      }
+      const parts = val.split('|');
+      return {
+        id: null,
+        name: parts[0] || 'Suite',
+        rate: Number(parts[1] || 0),
+      };
+    }
+
+    function updateSummary() {
+      const info = getSelectedRoomInfo();
       let nights = 1;
       if (checkinEl.value && checkoutEl.value && checkoutEl.value > checkinEl.value) {
         const diffMs = new Date(checkoutEl.value) - new Date(checkinEl.value);
         nights = Math.max(1, Math.round(diffMs / (1000 * 60 * 60 * 24)));
       }
 
-      summaryRoomName.textContent = roomName;
-      summaryRate.textContent = '$' + rate;
+      summaryRoomName.textContent = info.name;
+      summaryRate.textContent = '$' + info.rate;
       summaryNights.textContent = String(nights);
-      summaryTotal.textContent = '$' + (rate * nights);
+      summaryTotal.textContent = '$' + (info.rate * nights);
     }
 
     checkinEl.addEventListener('change', function () {
@@ -117,9 +159,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     checkoutEl.addEventListener('change', updateSummary);
     roomEl.addEventListener('change', updateSummary);
-    updateSummary();
 
-    resForm.addEventListener('submit', function (e) {
+    await loadRoomsFromApi();
+
+    resForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       errorEl.classList.add('hidden');
       errorEl.textContent = '';
@@ -135,27 +178,63 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      const parts = roomEl.value.split('|');
-      const roomName = parts[0];
-      const rate = Number(parts[1] || 0);
-      const nights = Math.max(1, Math.round((new Date(checkoutEl.value) - new Date(checkinEl.value)) / (1000 * 60 * 60 * 24)));
+      const info = getSelectedRoomInfo();
+      const token = window.DormiwayUserAuth?.getToken();
+      const guestCount = parseInt(guestsEl.value, 10) || 1;
+      const submitBtn = resForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
 
-      const booking = {
-        ref: 'DW-' + Math.floor(100000 + Math.random() * 900000),
-        guestName: nameEl.value.trim(),
-        guestEmail: emailEl.value.trim(),
-        guestPhone: phoneEl.value.trim(),
-        roomName: roomName,
-        checkin: checkinEl.value,
-        checkout: checkoutEl.value,
-        guests: guestsEl.value,
-        nights: nights,
-        total: '$' + (rate * nights),
-        requests: requestsEl.value.trim(),
-      };
+      try {
+        if (!info.id || !token) {
+          throw new Error('Unable to connect to room catalog. Please refresh and sign in again.');
+        }
 
-      localStorage.setItem('dormiway_last_booking', JSON.stringify(booking));
-      window.location.href = 'confirmation.html';
+        const res = await fetch(`${apiBase}/api/bookings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            roomId: info.id,
+            checkInDate: checkinEl.value,
+            checkOutDate: checkoutEl.value,
+            guests: guestCount,
+            specialRequests: requestsEl.value.trim(),
+          }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 401 || res.status === 403) {
+          window.DormiwayUserAuth?.clearSession();
+          window.location.replace('signin.html');
+          return;
+        }
+        if (!res.ok) {
+          throw new Error(data.message || 'Could not complete reservation.');
+        }
+
+        const bookingSummary = {
+          ref: data.bookingNumber,
+          guestName: nameEl.value.trim(),
+          guestEmail: emailEl.value.trim(),
+          guestPhone: phoneEl.value.trim(),
+          roomName: info.name,
+          checkin: data.checkInDate,
+          checkout: data.checkOutDate,
+          guests: String(data.guests),
+          nights: data.nights,
+          total: '$' + Number(data.totalPrice || 0).toLocaleString(),
+          requests: data.specialRequests || '',
+        };
+
+        localStorage.setItem('dormiway_last_booking', JSON.stringify(bookingSummary));
+        window.location.href = 'confirmation.html';
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
   }
 
@@ -177,5 +256,4 @@ document.addEventListener('DOMContentLoaded', function () {
       // ignore parse errors
     }
   }
-
 });

@@ -15,6 +15,14 @@ const {
   getAvailabilityCalendar
 } = require('../models/room.model');
 
+function toArray(val) {
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string' && val.trim()) {
+    try { return JSON.parse(val); } catch (e) { return []; }
+  }
+  return [];
+}
+
 /**
  * GET /api/rooms
  * Get all rooms with filters, sorting, and pagination
@@ -51,8 +59,8 @@ async function listRooms(req, res) {
       description: room.description,
       price: room.price_per_night,
       capacity: room.capacity,
-      amenities: room.amenities ? JSON.parse(room.amenities) : [],
-      images: room.images ? JSON.parse(room.images) : [],
+      amenities: toArray(room.amenities),
+      images: toArray(room.images),
       rating: room.rating || 0,
       available: room.is_available
     }));
@@ -91,8 +99,8 @@ async function getRoomDetails(req, res) {
       description: room.description,
       price: room.price_per_night,
       capacity: room.capacity,
-      amenities: room.amenities ? JSON.parse(room.amenities) : [],
-      images: room.images ? JSON.parse(room.images) : [],
+      amenities: toArray(room.amenities),
+      images: toArray(room.images),
       rating: room.rating || 0,
       available: room.is_available,
       createdAt: room.created_at
@@ -167,8 +175,8 @@ async function updateRoomAdmin(req, res) {
       description: description !== undefined ? description.trim() : room.description,
       capacity: capacity !== undefined ? parseInt(capacity) : room.capacity,
       pricePerNight: price !== undefined ? parseFloat(price) : room.price_per_night,
-      amenities: Array.isArray(amenities) ? amenities : JSON.parse(room.amenities || '[]'),
-      images: Array.isArray(images) ? images : JSON.parse(room.images || '[]'),
+      amenities: toArray(amenities !== undefined ? amenities : room.amenities),
+      images: toArray(images !== undefined ? images : room.images),
       isAvailable: available !== undefined ? available : room.is_available
     });
 
