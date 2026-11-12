@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Sign In — Dormiway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body class="flex min-h-screen items-center justify-center bg-[#F5F3EF] px-4 py-12 text-[#1A1714] antialiased">
+
+  <div class="w-full max-w-md border border-[#E8E2D8] bg-white p-8 sm:p-10" role="main" aria-labelledby="adminSignInTitle">
+
+    <div class="mb-8 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 rounded-md bg-[#1A1714] px-3 py-2 text-white">
+        <img src="../assets/images/admin/logo.png" alt="Dormiway" class="h-7 w-7 object-contain" onerror="this.style.display='none'" />
+        <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium tracking-[0.12em]">Dormiway</span>
+      </div>
+      <a href="../index.html" class="text-xs text-[#7A6248] hover:underline">← Back to site</a>
+    </div>
+
+    <div class="mb-7">
+      <h1 class="font-['Cormorant_Garamond',Georgia,serif] text-3xl font-normal text-[#1A1714]" id="adminSignInTitle">Sign In</h1>
+      <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">
+        Access your dashboard to manage bookings, rooms, and hotel operations
+      </p>
+    </div>
+
+    <form class="space-y-5" id="adminSignInForm" novalidate>
+
+      <div id="fieldEmail">
+        <label for="adminEmail" class="block text-[10px] font-medium tracking-[0.2em] text-[#7A6248] uppercase">Email Address</label>
+        <input
+          type="email"
+          id="adminEmail"
+          name="email"
+          class="mt-2 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none"
+          placeholder="hello@dormiway.com"
+          autocomplete="email"
+          required
+        />
+        <span class="mt-1 block text-xs text-red-700" id="emailError" role="alert"></span>
+      </div>
+
+      <div id="fieldPassword">
+        <label for="adminPassword" class="block text-[10px] font-medium tracking-[0.2em] text-[#7A6248] uppercase">Password</label>
+        <div class="relative mt-2">
+          <input
+            type="password"
+            id="adminPassword"
+            name="password"
+            class="w-full border border-[#DDD5C8] bg-[#FAF8F5] px-4 py-3 pr-11 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none"
+            placeholder="••••••••••••"
+            autocomplete="current-password"
+            required
+          />
+          <button
+            type="button"
+            class="password-toggle absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#6B6460] hover:text-[#1A1714]"
+            id="pwToggle"
+            aria-label="Show password"
+          >
+            <svg class="eye-icon eye-icon--hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+            <svg class="eye-icon eye-icon--visible" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <span class="mt-1 block text-xs text-red-700" id="passwordError" role="alert"></span>
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-[#6B6460]">
+        <label class="flex cursor-pointer items-center gap-2">
+          <input type="checkbox" id="rememberMe" name="rememberMe" class="accent-[#7A6248]" />
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="text-[#7A6248] hover:underline" id="forgotLink">Forgot?</a>
+      </div>
+
+      <button type="submit" class="flex w-full cursor-pointer items-center justify-center gap-2 bg-[#1A1714] px-6 py-3.5 text-xs font-medium tracking-[0.2em] text-white uppercase transition hover:bg-[#7A6248]" id="signInBtn">
+        <span class="admin-auth-btn__label">SIGN IN</span>
+        <span class="admin-auth-btn__arrow" aria-hidden="true">↗</span>
+        <span class="admin-auth-btn__spinner" aria-hidden="true" hidden>Signing in…</span>
+      </button>
+
+      <div class="auth-toast rounded px-4 py-3 text-xs" id="authToast" role="alert" aria-live="assertive" hidden></div>
+
+    </form>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/admin-auth.js"></script>
+</body>
+</html>

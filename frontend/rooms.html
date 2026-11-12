@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rooms &amp; Suites — Dormiway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#F5F3EF] text-[#1A1714] antialiased">
+
+  <!-- HEADER -->
+    <header class="navbar sticky top-0 z-50 bg-[#1A1714] text-white transition-all duration-300" id="roomsHeader">
+    <div class="mx-auto flex max-w-[1200px] items-center justify-between px-8 py-5">
+      <a href="index.html" class="flex items-center gap-2.5 text-white no-underline">
+        <img src="assets/images/logo.png" alt="Dormiway Logo" class="h-7 w-7 object-contain brightness-0 invert" />
+        <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium tracking-[0.18em]">DORMIWAY</span>
+      </a>
+      <nav class="hidden items-center gap-8 text-[13px] tracking-[0.06em] text-white/90 md:flex">
+        <a href="rooms.html" class="transition hover:text-white">Rooms &amp; Suites</a>
+        <a href="amenities-dining.html" class="transition hover:text-white">Amenities &amp; Dining</a>
+        <a href="events.html" class="transition hover:text-white">Events</a>
+        <a href="offers.html" class="transition hover:text-white">Offers</a>
+        <a href="contact.html" class="transition hover:text-white">Contact</a>
+      </nav>
+      <div class="hidden items-center gap-5 md:flex">
+        <a href="signin.html" class="text-[13px] tracking-[0.06em] text-white/90 transition hover:text-white">Sign In</a>
+        <a href="reservation.html" class="border border-white/70 px-4 py-2 text-[11px] tracking-[0.14em] text-white uppercase transition hover:bg-white hover:text-[#1A1714]">Make a Reservation</a>
+      </div>
+      <button class="flex flex-col gap-1.5 md:hidden" id="roomsNavToggle" aria-label="Open menu">
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer flex-col gap-4 border-t border-white/10 bg-[#1A1714] px-8 py-6 text-sm text-white md:hidden" id="roomsNavMobile">
+      <a href="rooms.html" class="hover:text-[#A89F96]">Rooms &amp; Suites</a>
+      <a href="amenities-dining.html" class="hover:text-[#A89F96]">Amenities &amp; Dining</a>
+      <a href="events.html" class="hover:text-[#A89F96]">Events</a>
+      <a href="offers.html" class="hover:text-[#A89F96]">Offers</a>
+      <a href="contact.html" class="hover:text-[#A89F96]">Contact</a>
+      <a href="signin.html" class="hover:text-[#A89F96]">Sign In</a>
+      <a href="reservation.html" class="mt-2 bg-[#7A6248] px-5 py-3 text-center text-xs tracking-[0.15em] text-white uppercase">Make a Reservation</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="py-16 sm:py-20">
+      <div class="mx-auto max-w-[1200px] px-6 sm:px-8">
+
+        <!-- Filter Tab Bar -->
+        <div class="mb-12 flex flex-wrap justify-center gap-3" role="tablist" aria-label="Filter by room type">
+          <button class="rooms-filter__btn active cursor-pointer border border-[#DDD5C8] bg-white px-6 py-2.5 text-xs tracking-[0.14em] uppercase transition hover:border-[#1A1714]" data-filter="all" role="tab" aria-selected="true">All Suite</button>
+          <button class="rooms-filter__btn cursor-pointer border border-[#DDD5C8] bg-white px-6 py-2.5 text-xs tracking-[0.14em] text-[#6B6460] uppercase transition hover:border-[#1A1714]" data-filter="standard" role="tab" aria-selected="false">Standard Suite</button>
+          <button class="rooms-filter__btn cursor-pointer border border-[#DDD5C8] bg-white px-6 py-2.5 text-xs tracking-[0.14em] text-[#6B6460] uppercase transition hover:border-[#1A1714]" data-filter="executive" role="tab" aria-selected="false">Executive Suite</button>
+          <button class="rooms-filter__btn cursor-pointer border border-[#DDD5C8] bg-white px-6 py-2.5 text-xs tracking-[0.14em] text-[#6B6460] uppercase transition hover:border-[#1A1714]" data-filter="presidential" role="tab" aria-selected="false">Presidential Suite</button>
+        </div>
+
+        <!-- ROOMS GRID -->
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" id="roomsGrid">
+
+          <!-- STANDARD SUITE -->
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="standard">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph.png" alt="Standard Suite — Classic" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$49</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Standard Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="standard-suite-1.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="standard">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-1.png" alt="Standard Suite — Garden View" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$79</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Standard Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="standard-suite-2.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="standard">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-2.png" alt="Standard Suite — Courtyard" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$89</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Standard Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="standard-suite-3.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="standard">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-3.png" alt="Standard Suite — Pool Side" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$99</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Standard Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="standard-suite-4.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <!-- EXECUTIVE SUITE -->
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="executive">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-4.png" alt="Executive Suite — Classic" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$80</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Executive Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="executive-suite-1.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="executive">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-5.png" alt="Executive Suite — Terrace" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$100</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Executive Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="executive-suite-2.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="executive">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-6.png" alt="Executive Suite — Garden" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$120</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Executive Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="executive-suite-3.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="executive">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-7.png" alt="Executive Suite — Forest" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$145</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Executive Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="executive-suite-4.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <!-- PRESIDENTIAL SUITE -->
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="presidential">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-8.png" alt="Presidential Suite — Classic" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$90</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Presidential Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="presidential-suite-1.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="presidential">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-9.png" alt="Presidential Suite — Penthouse" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$110</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Presidential Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Soft textures, natural light, and room to exhale.</p>
+              <a href="presidential-suite-2.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="presidential">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-10.png" alt="Presidential Suite — Terrace" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$120</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Presidential Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="presidential-suite-3.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+          <article class="room-card group border border-[#E8E2D8] bg-white" data-category="presidential">
+            <div class="h-64 overflow-hidden">
+              <img src="assets/images/rooms/Story photograph-11.png" alt="Presidential Suite — Grand" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">An Unforgettable Stay</span>
+                <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium text-[#1A1714]">$160</span>
+              </div>
+              <h2 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Presidential Suite</h2>
+              <p class="mt-2 text-xs font-light leading-relaxed text-[#6B6460]">Generous spaces for the moments you share.</p>
+              <a href="presidential-suite-4.html" class="mt-4 inline-flex items-center gap-1 text-xs tracking-[0.14em] text-[#1A1714] uppercase transition hover:text-[#7A6248]">Read More <span>↗</span></a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#111009] pt-16 pb-10 text-[#A89F96]">
+    <div class="mx-auto grid max-w-[1200px] gap-10 px-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <div class="flex items-center gap-2.5 text-white">
+          <img src="assets/images/logo.png" alt="Dormiway Logo" class="h-6 w-6 object-contain brightness-0 invert" />
+          <span class="font-['Cormorant_Garamond',Georgia,serif] text-lg tracking-[0.15em]">Dormiway</span>
+        </div>
+        <p class="mt-3 text-xs leading-relaxed">A slower kind of luxury.<br />A feeling you'll take home.</p>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">DISCOVER</p>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html#about" class="hover:text-white">Our story</a></li>
+          <li><a href="rooms.html" class="hover:text-white">Rooms &amp; suites</a></li>
+          <li><a href="amenities-dining.html#dining" class="hover:text-white">Dining</a></li>
+          <li><a href="amenities-dining.html#wellness" class="hover:text-white">Wellbeing</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">YOUR STAY</p>
+        <ul class="space-y-2 text-xs">
+          <li><a href="reservation.html" class="hover:text-white">Reservations</a></li>
+          <li><a href="contact.html" class="hover:text-white">Contact our team</a></li>
+          <li><a href="offers.html" class="hover:text-white">Seasonal Offers</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">STAY IN TOUCH</p>
+        <form class="flex border-b border-white/25 pb-2" id="roomsNewsletterForm">
+          <input type="email" placeholder="Your email address" required class="w-full bg-transparent text-xs text-white placeholder-[#A89F96] focus:outline-none" />
+          <button type="submit" aria-label="Subscribe" class="cursor-pointer pl-3 text-white">→</button>
+        </form>
+      </div>
+    </div>
+    <div class="mx-auto mt-12 flex max-w-[1200px] items-center justify-between border-t border-white/10 px-8 pt-6 text-[11px]">
+      <span>© 2026 Dormiway. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="js/animations.js"></script>
+  <script src="js/rooms.js"></script>
+  <script src="js/user-auth.js"></script>
+</body>
+</html>

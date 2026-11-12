@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservation — Dormiway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/user-auth.js"></script>
+  <script>
+    window.DormiwayUserAuth && window.DormiwayUserAuth.requireAuthForReservation();
+  </script>
+</head>
+<body class="bg-[#F5F3EF] text-[#1A1714] antialiased">
+
+  <!-- LIGHT HEADER -->
+    <header class="navbar sticky top-0 z-50 bg-[#1A1714] text-white transition-all duration-300" id="reservationHeader">
+    <div class="mx-auto flex max-w-[1200px] items-center justify-between px-8 py-5">
+      <a href="index.html" class="flex items-center gap-2.5 text-white no-underline">
+        <img src="assets/images/logo.png" alt="Dormiway Logo" class="h-7 w-7 object-contain brightness-0 invert" />
+        <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium tracking-[0.18em]">DORMIWAY</span>
+      </a>
+      <nav class="hidden items-center gap-8 text-[13px] tracking-[0.06em] text-white/90 md:flex">
+        <a href="rooms.html" class="transition hover:text-white">Rooms &amp; Suites</a>
+        <a href="amenities-dining.html" class="transition hover:text-white">Amenities &amp; Dining</a>
+        <a href="events.html" class="transition hover:text-white">Events</a>
+        <a href="offers.html" class="transition hover:text-white">Offers</a>
+        <a href="contact.html" class="transition hover:text-white">Contact</a>
+      </nav>
+      <div class="hidden items-center gap-5 md:flex">
+        <a href="signin.html" class="text-[13px] tracking-[0.06em] text-white/90 transition hover:text-white">Sign In</a>
+        <a href="reservation.html" class="border border-white/70 px-4 py-2 text-[11px] tracking-[0.14em] text-white uppercase transition hover:bg-white hover:text-[#1A1714]">Make a Reservation</a>
+      </div>
+      <button class="flex flex-col gap-1.5 md:hidden" id="navToggle" aria-label="Open menu">
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer flex-col gap-4 border-t border-white/10 bg-[#1A1714] px-8 py-6 text-sm text-white md:hidden" id="navMobile">
+      <a href="rooms.html" class="hover:text-[#A89F96]">Rooms &amp; Suites</a>
+      <a href="amenities-dining.html" class="hover:text-[#A89F96]">Amenities &amp; Dining</a>
+      <a href="events.html" class="hover:text-[#A89F96]">Events</a>
+      <a href="offers.html" class="hover:text-[#A89F96]">Offers</a>
+      <a href="contact.html" class="hover:text-[#A89F96]">Contact</a>
+      <a href="signin.html" class="hover:text-[#A89F96]">Sign In</a>
+      <a href="reservation.html" class="mt-2 bg-[#7A6248] px-5 py-3 text-center text-xs tracking-[0.15em] text-white uppercase">Make a Reservation</a>
+    </div>
+  </header>
+
+  <!-- MAIN RESERVATION CANVAS -->
+  <main class="min-h-[75vh] bg-[#F5F3EF] px-4 py-12 sm:px-8 lg:py-16" id="reservationContainer">
+    <div class="mx-auto max-w-5xl">
+      <div class="mb-10 text-center">
+        <p class="text-[11px] font-medium tracking-[0.25em] text-[#7A6248] uppercase">Reservations</p>
+        <h1 class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-4xl font-normal text-[#1A1714] sm:text-5xl">
+          Reserve Your Stay
+        </h1>
+        <p class="mx-auto mt-3 max-w-xl text-sm font-light leading-relaxed text-[#6E655D]">
+          Select your dates, suite, and preferences. Every detail is prepared with quiet care.
+        </p>
+      </div>
+
+      <form id="reservationForm" class="grid gap-8 lg:grid-cols-3" novalidate>
+        <div class="space-y-6 border border-[#E8E2D8] bg-white p-6 sm:p-8 lg:col-span-2">
+          <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Stay Details</h2>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="resCheckin" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Check-in Date</label>
+              <input type="date" id="resCheckin" required class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none" />
+            </div>
+            <div>
+              <label for="resCheckout" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Check-out Date</label>
+              <input type="date" id="resCheckout" required class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="resRoom" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Suite Selection</label>
+              <select id="resRoom" required class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none">
+                <option value="Standard Suite - Classic|49">Standard Suite — Classic ($49 / night)</option>
+                <option value="Standard Suite - Garden View|79">Standard Suite — Garden View ($79 / night)</option>
+                <option value="Standard Suite - Courtyard|89">Standard Suite — Courtyard ($89 / night)</option>
+                <option value="Standard Suite - Pool Side|99">Standard Suite — Pool Side ($99 / night)</option>
+                <option value="Executive Suite - Classic|80">Executive Suite — Classic ($80 / night)</option>
+                <option value="Executive Suite - Terrace|100">Executive Suite — Terrace ($100 / night)</option>
+                <option value="Executive Suite - Garden|120">Executive Suite — Garden ($120 / night)</option>
+                <option value="Executive Suite - Forest|145">Executive Suite — Forest ($145 / night)</option>
+                <option value="Presidential Suite - Classic|90">Presidential Suite — Classic ($90 / night)</option>
+                <option value="Presidential Suite - Penthouse|110">Presidential Suite — Penthouse ($110 / night)</option>
+                <option value="Presidential Suite - Terrace|120">Presidential Suite — Terrace ($120 / night)</option>
+                <option value="Presidential Suite - Grand|160">Presidential Suite — Grand ($160 / night)</option>
+              </select>
+            </div>
+            <div>
+              <label for="resGuests" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Guests</label>
+              <select id="resGuests" class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none">
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4+">4+ Guests</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="resName" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Guest Full Name</label>
+              <input type="text" id="resName" required placeholder="Your full name" class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none" />
+            </div>
+            <div>
+              <label for="resEmail" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Email Address</label>
+              <input type="email" id="resEmail" required placeholder="hello@dormiway.com" class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label for="resPhone" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Phone Number</label>
+            <input type="tel" id="resPhone" required placeholder="+1 (555) 000-0000" class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="resRequests" class="block text-[11px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Special Requests (Optional)</label>
+            <textarea id="resRequests" rows="3" placeholder="Airport transfer, late check-in, dietary notes..." class="mt-2 w-full border border-[#E8E2D8] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1A1714] focus:border-[#7A6248] focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <aside class="h-fit border border-[#E8E2D8] bg-white p-6 sm:p-8">
+          <p class="text-[11px] font-medium tracking-[0.2em] text-[#7A6248] uppercase">Stay Summary</p>
+          <h3 class="mt-1 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]" id="summaryRoomName">
+            Standard Suite — Classic
+          </h3>
+
+          <div class="mt-6 space-y-3 border-t border-[#E8E2D8] pt-5 text-sm text-[#6E655D]">
+            <div class="flex justify-between">
+              <span>Nightly Rate</span>
+              <span class="font-medium text-[#1A1714]" id="summaryRate">$49</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Nights</span>
+              <span class="font-medium text-[#1A1714]" id="summaryNights">1</span>
+            </div>
+            <div class="flex justify-between border-t border-[#E8E2D8] pt-3 text-base text-[#1A1714]">
+              <span class="font-medium">Estimated Total</span>
+              <span class="font-semibold text-[#7A6248]" id="summaryTotal">$49</span>
+            </div>
+          </div>
+
+          <p id="resError" class="mt-4 hidden text-xs text-red-700"></p>
+
+          <button type="submit" class="mt-6 w-full cursor-pointer bg-[#1A1714] px-6 py-3.5 text-xs font-medium tracking-[0.2em] text-white uppercase transition hover:bg-[#7A6248]">
+            Confirm Reservation →
+          </button>
+        </aside>
+      </form>
+    </div>
+  </main>
+
+  <!-- SIGNATURE DARK FOOTER -->
+  <footer class="bg-[#111009] pt-16 pb-10 text-[#A89F96]">
+    <div class="mx-auto grid max-w-[1200px] gap-10 px-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <div class="flex items-center gap-2.5 text-white">
+          <img src="assets/images/logo.png" alt="Dormiway Logo" class="h-6 w-6 object-contain brightness-0 invert" />
+          <span class="font-['Cormorant_Garamond',Georgia,serif] text-lg tracking-[0.15em]">Dormiway</span>
+        </div>
+        <p class="mt-3 text-xs leading-relaxed">A slower kind of luxury.<br />A feeling you'll take home.</p>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">DISCOVER</p>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html#about" class="hover:text-white">Our story</a></li>
+          <li><a href="rooms.html" class="hover:text-white">Rooms &amp; suites</a></li>
+          <li><a href="amenities-dining.html#dining" class="hover:text-white">Dining</a></li>
+          <li><a href="amenities-dining.html#wellness" class="hover:text-white">Wellbeing</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">YOUR STAY</p>
+        <ul class="space-y-2 text-xs">
+          <li><a href="reservation.html" class="hover:text-white">Reservations</a></li>
+          <li><a href="contact.html" class="hover:text-white">Contact our team</a></li>
+          <li><a href="offers.html" class="hover:text-white">Seasonal Offers</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="mb-4 text-[11px] font-medium tracking-[0.2em] text-white uppercase">STAY IN TOUCH</p>
+        <form class="flex border-b border-white/25 pb-2" id="newsletterForm">
+          <input type="email" placeholder="Your email address" required class="w-full bg-transparent text-xs text-white placeholder-[#A89F96] focus:outline-none" />
+          <button type="submit" aria-label="Subscribe" class="cursor-pointer pl-3 text-white">→</button>
+        </form>
+      </div>
+    </div>
+    <div class="mx-auto mt-12 flex max-w-[1200px] items-center justify-between border-t border-white/10 px-8 pt-6 text-[11px]">
+      <span>© 2026 Dormiway. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="js/animations.js"></script>
+  <script src="js/reservation.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dormiway Admin</title>
+  <script>
+    (function () {
+      var token = localStorage.getItem('dormiway_admin_token') || sessionStorage.getItem('dormiway_admin_token');
+      var base = location.pathname.replace(/\/(index\.html)?$/, '').replace(/\/$/, '');
+      window.location.replace(base + (token ? '/dashboard.html' : '/login.html'));
+    }());
+  </script>
+</head>
+<body>
+  <p>Redirecting…</p>
+</body>
+</html>

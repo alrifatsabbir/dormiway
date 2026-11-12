@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard — Dormiway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/user-auth.js"></script>
+  <script>
+    window.DormiwayUserAuth && window.DormiwayUserAuth.requireAuthForDashboard();
+  </script>
+</head>
+<body class="bg-[#F5F3EF] text-[#1A1714] antialiased">
+
+  <!-- HOMEPAGE NAVBAR -->
+  <header class="navbar sticky top-0 z-50 bg-[#1A1714] text-white transition-all duration-300" id="header">
+    <div class="mx-auto flex max-w-[1200px] items-center justify-between px-8 py-5">
+      <a href="index.html" class="flex items-center gap-2.5 text-white no-underline">
+        <img src="assets/images/logo.png" alt="Dormiway Logo" class="h-7 w-7 object-contain brightness-0 invert" />
+        <span class="font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium tracking-[0.18em]">DORMIWAY</span>
+      </a>
+      <nav class="hidden items-center gap-8 text-[13px] tracking-[0.06em] text-white/90 md:flex">
+        <a href="rooms.html" class="transition hover:text-white">Rooms &amp; Suites</a>
+        <a href="amenities-dining.html" class="transition hover:text-white">Amenities &amp; Dining</a>
+        <a href="events.html" class="transition hover:text-white">Events</a>
+        <a href="offers.html" class="transition hover:text-white">Offers</a>
+        <a href="contact.html" class="transition hover:text-white">Contact</a>
+      </nav>
+      <div class="hidden items-center gap-5 md:flex">
+        <a href="signin.html" class="text-[13px] tracking-[0.06em] text-white/90 transition hover:text-white">Sign In</a>
+        <a href="reservation.html" class="border border-white/70 px-4 py-2 text-[11px] tracking-[0.14em] text-white uppercase transition hover:bg-white hover:text-[#1A1714]">Make a Reservation</a>
+      </div>
+      <button class="flex flex-col gap-1.5 md:hidden" id="navToggle" aria-label="Open menu">
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+        <span class="block h-px w-6 bg-white"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer flex-col gap-4 border-t border-white/10 bg-[#1A1714] px-8 py-6 text-sm text-white md:hidden" id="navMobile">
+      <a href="rooms.html" class="hover:text-[#A89F96]">Rooms &amp; Suites</a>
+      <a href="amenities-dining.html" class="hover:text-[#A89F96]">Amenities &amp; Dining</a>
+      <a href="events.html" class="hover:text-[#A89F96]">Events</a>
+      <a href="offers.html" class="hover:text-[#A89F96]">Offers</a>
+      <a href="contact.html" class="hover:text-[#A89F96]">Contact</a>
+      <a href="dashboard.html" class="hover:text-[#A89F96]">Dashboard</a>
+      <a href="reservation.html" class="mt-2 bg-[#7A6248] px-5 py-3 text-center text-xs tracking-[0.15em] text-white uppercase">Make a Reservation</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-[1200px] space-y-8 px-6 py-12 sm:px-8">
+
+    <!-- Welcome Header -->
+    <div class="flex flex-col justify-between gap-4 border-b border-[#E8E2D8] pb-6 sm:flex-row sm:items-end">
+      <div>
+        <p class="text-[11px] font-medium tracking-[0.22em] text-[#7A6248] uppercase">Guest Portal</p>
+        <h1 class="mt-1 font-['Cormorant_Garamond',Georgia,serif] text-4xl font-normal text-[#1A1714]" id="userWelcome">Welcome back.</h1>
+        <p class="mt-1 text-xs text-[#6B6460]" id="userEmailLabel">—</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="reservation.html" class="bg-[#1A1714] px-5 py-2.5 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#7A6248]">
+          + New Reservation
+        </a>
+        <button id="userSignOutBtn" class="cursor-pointer border border-[#DDD5C8] bg-white px-5 py-2.5 text-xs tracking-[0.16em] text-[#1A1714] uppercase transition hover:border-[#1A1714]">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <section class="grid gap-4 sm:grid-cols-3">
+      <article class="border border-[#E8E2D8] bg-white p-5">
+        <p class="text-xs text-[#6B6460]">My Reservations</p>
+        <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" id="statBookings">0</p>
+      </article>
+      <article class="border border-[#E8E2D8] bg-white p-5">
+        <p class="text-xs text-[#6B6460]">Upcoming Stays</p>
+        <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" id="statUpcoming">0</p>
+      </article>
+      <article class="border border-[#E8E2D8] bg-white p-5">
+        <p class="text-xs text-[#6B6460]">Payments Made</p>
+        <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" id="statPayments">0</p>
+      </article>
+    </section>
+
+    <div class="grid gap-8 lg:grid-cols-3">
+      <!-- My Reservations -->
+      <section class="border border-[#E8E2D8] bg-white p-6 lg:col-span-2">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">My Reservations</h2>
+          <a href="rooms.html" class="text-xs text-[#7A6248] hover:underline">Browse Suites →</a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr class="border-b border-[#E8E2D8] text-[11px] font-medium tracking-[0.12em] text-[#9C948B] uppercase">
+                <th class="py-3 pr-4">Booking #</th>
+                <th class="py-3 pr-4">Suite</th>
+                <th class="py-3 pr-4">Dates</th>
+                <th class="py-3 pr-4">Total</th>
+                <th class="py-3 pr-4">Status</th>
+                <th class="py-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="userBookingsBody">
+              <tr><td colspan="6" class="py-8 text-center text-xs text-[#9C948B]">Loading your reservations…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- My Profile -->
+      <section class="border border-[#E8E2D8] bg-white p-6">
+        <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">My Profile</h2>
+        <form id="profileForm" class="mt-4 space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">First Name</label>
+              <input type="text" id="profFirst" required class="mt-1 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Last Name</label>
+              <input type="text" id="profLast" required class="mt-1 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-3 py-2 text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Phone</label>
+            <input type="tel" id="profPhone" class="mt-1 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-3 py-2 text-sm" placeholder="+1 (555) 000-0000" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Nationality</label>
+            <input type="text" id="profNationality" class="mt-1 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.18em] text-[#7A6248] uppercase">Passport Number</label>
+            <input type="text" id="profPassport" class="mt-1 w-full border border-[#DDD5C8] bg-[#FAF8F5] px-3 py-2 text-sm" />
+          </div>
+          <p id="profileMsg" class="hidden text-xs"></p>
+          <button type="submit" class="w-full cursor-pointer bg-[#1A1714] py-3 text-xs tracking-[0.16em] text-white uppercase transition hover:bg-[#7A6248]">
+            Save Profile
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <!-- Payment History -->
+    <section class="border border-[#E8E2D8] bg-white p-6">
+      <h2 class="mb-4 font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Payment History</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left text-sm">
+          <thead>
+            <tr class="border-b border-[#E8E2D8] text-[11px] font-medium tracking-[0.12em] text-[#9C948B] uppercase">
+              <th class="py-3 pr-4">Transaction ID</th>
+              <th class="py-3 pr-4">Booking #</th>
+              <th class="py-3 pr-4">Suite</th>
+              <th class="py-3 pr-4">Amount</th>
+              <th class="py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody id="userPaymentsBody">
+            <tr><td colspan="5" class="py-8 text-center text-xs text-[#9C948B]">Loading payments…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-[#111009] py-10 text-center text-xs text-[#A89F96]">
+    <span>© 2026 Dormiway. All rights reserved.</span>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/user-dashboard.js"></script>
+</body>
+</html>
+

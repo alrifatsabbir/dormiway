@@ -1,0 +1,275 @@
+/* ============================================================
+   STYLE.CSS — Minimal Design Tokens, Keyframes & JS State Rules
+   All layout & component styling is handled by Tailwind CSS v4.
+   ============================================================ */
+
+:root {
+  --color-cream:      #F5EFE0;
+  --color-cream-dark: #EDE5D0;
+  --color-linen:      #F5F3EF;
+  --color-white:      #FFFFFF;
+  --color-dark:       #1A1714;
+  --color-dark-bg:    #111009;
+  --color-gold:       #7A6248;
+  --color-gold-light: #8C7355;
+  --color-text:       #1A1714;
+  --color-text-mid:   #6B6460;
+  --color-text-light: #A89F96;
+  --color-border:     #DDD5C8;
+  --font-serif:       'Cormorant Garamond', Georgia, serif;
+  --font-sans:        'Jost', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Sticky Header Scrolled State (toggled by JS) ── */
+.scrolled {
+  background-color: rgba(255, 255, 255, 0.97) !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 20px rgba(26, 23, 20, 0.08);
+}
+
+.navbar.scrolled {
+  background-color: rgba(26, 23, 20, 0.94) !important;
+}
+
+/* ── Mobile Drawer Open State (toggled by JS) ── */
+.mobile-drawer {
+  display: none;
+}
+.mobile-drawer.open {
+  display: flex;
+}
+
+/* ── Accordion Open State (toggled by JS) ── */
+.accordion__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.accordion__body.open {
+  max-height: 240px;
+}
+.accordion__btn[aria-expanded="true"] .accordion__icon {
+  transform: rotate(45deg);
+}
+
+/* ── Active Tab / Filter States (toggled by JS) ── */
+.dining__tab.active {
+  background-color: #FFFFFF;
+  color: #1A1714;
+  border-color: #FFFFFF;
+}
+.rooms-filter__btn.active {
+  background-color: #1A1714;
+  color: #FFFFFF;
+  border-color: #1A1714;
+}
+
+/* ── Auth Form States (toggled by auth.js / admin-auth.js) ── */
+.has-error input {
+  border-color: #B91C1C !important;
+}
+.auth-toast {
+  display: none;
+}
+.auth-toast.is-success,
+.auth-toast.visible.success {
+  display: block;
+  background-color: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+.auth-toast.is-error,
+.auth-toast.visible.error {
+  display: block;
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+.password-toggle .eye-icon--visible { display: none; }
+.password-toggle.is-visible .eye-icon--hidden,
+.password-toggle.visible .eye-icon--hidden { display: none; }
+.password-toggle.is-visible .eye-icon--visible,
+.password-toggle.visible .eye-icon--visible { display: block; }
+
+/* ── Admin Sidebar Collapsed / Mobile States ── */
+.sidebar.collapsed {
+  width: 76px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.sidebar.collapsed .sidebar__brand {
+  justify-content: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.sidebar.collapsed .sidebar__brand-logo,
+.sidebar.collapsed .sidebar__brand-name,
+.sidebar.collapsed .sidebar__section-label,
+.sidebar.collapsed .sidebar__nav-item span,
+.sidebar.collapsed .sidebar__profile-info,
+.sidebar.collapsed #adminLogoutBtn {
+  display: none;
+}
+.sidebar.collapsed .sidebar__nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+.sidebar.collapsed .sidebar__profile {
+  justify-content: center;
+}
+.sidebar.collapsed #sidebarCollapseBtn svg {
+  transform: rotate(180deg);
+}
+.sidebar.open,
+.sidebar.is-open {
+  transform: translateX(0) !important;
+}
+.is-visible {
+  display: block !important;
+}
+.rp-tab-content--hidden,
+.st-tab-content--hidden {
+  display: none !important;
+}
+
+/* ── Scroll Reveal Animations (used by animations.js) ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+[data-animation] {
+  opacity: 0;
+}
+[data-animation].animate--visible,
+[data-animation].animated {
+  animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animation] {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* ── Shared Admin Workspace Components (used by admin/*.js) ── */
+.mid-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 1024px) {
+  .mid-row { grid-template-columns: 1fr; }
+}
+.chart-card,
+.rooms-card,
+.arrivals-section {
+  background: #FFFFFF;
+  border: 1px solid #E8E2D8;
+  padding: 1.5rem;
+}
+.chart-card__header,
+.arrivals-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.chart-card__title,
+.rooms-card__title,
+.arrivals-section__title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #1A1714;
+}
+.chart-card__sub { font-size: 0.75rem; color: #6B6460; }
+.chart-card__canvas-wrap { position: relative; height: 260px; width: 100%; }
+.rooms-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  gap: 2px;
+  margin: 1rem 0 1.25rem;
+}
+.rooms-bar__seg--occupied  { background: #1A1714; }
+.rooms-bar__seg--available { background: #7A6248; }
+.rooms-bar__seg--housekeep { background: #D4C5B2; }
+.rooms-bar__seg--maint     { background: #D97757; }
+.rooms-stats { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; }
+.rooms-stats__row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F3EFE9; padding-bottom: 0.5rem; }
+.rooms-stats__dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 0.5rem; display: inline-block; }
+.rooms-stats__dot--occupied  { background: #1A1714; }
+.rooms-stats__dot--available { background: #7A6248; }
+.rooms-stats__dot--housekeep { background: #D4C5B2; }
+.rooms-stats__dot--maint     { background: #D97757; }
+.rooms-stats__label { color: #6B6460; margin-right: auto; }
+.rooms-stats__value { font-weight: 500; color: #1A1714; }
+.rooms-card__link,
+.arrivals-section__view-all { display: inline-block; margin-top: 1rem; font-size: 0.78rem; color: #7A6248; text-decoration: none; }
+
+.arrivals-table-wrap { overflow-x: auto; }
+.arrivals-table,
+.admin-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.arrivals-table th,
+.admin-page th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9C948B;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #E8E2D8;
+}
+.arrivals-table td,
+.admin-page td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #F3EFE9;
+  color: #1A1714;
+}
+.admin-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #FFFFFF;
+  border-top: 1px solid #E8E2D8;
+  font-size: 0.75rem;
+  color: #6B6460;
+}
+.notif-dropdown {
+  position: fixed;
+  top: 64px;
+  right: 24px;
+  width: 320px;
+  background: #FFFFFF;
+  border: 1px solid #E8E2D8;
+  box-shadow: 0 12px 32px rgba(26, 23, 20, 0.12);
+  z-index: 100;
+  padding: 1rem;
+}
+

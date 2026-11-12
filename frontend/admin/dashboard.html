@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Dormiway Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/admin-guard.js"></script>
+</head>
+<body class="bg-[#F5F3EF] text-[#1A1714] antialiased">
+
+  <div class="admin-layout flex min-h-screen bg-[#F5F3EF]">
+
+    <!-- SIDEBAR -->
+        <aside class="sidebar fixed inset-y-0 left-0 z-40 flex h-[100dvh] w-64 shrink-0 -translate-x-full flex-col overflow-y-auto border-r border-[#E8E2D8] bg-white p-5 transition-all duration-300 lg:sticky lg:top-0 lg:h-[100dvh] lg:translate-x-0" id="sidebar">
+      <div class="sidebar__brand mb-6 flex items-center justify-between rounded-md bg-[#1A1714] px-3.5 py-3 text-white">
+        <div class="flex items-center gap-2.5">
+          <img src="../assets/images/admin/logo.png" alt="Dormiway" class="sidebar__brand-logo h-7 w-7 object-contain" onerror="this.style.display='none'" />
+          <span class="sidebar__brand-name font-['Cormorant_Garamond',Georgia,serif] text-xl font-medium tracking-[0.08em]">Dormiway</span>
+        </div>
+        <button class="sidebar__collapse-btn hidden cursor-pointer text-white/75 transition hover:text-white lg:block" id="sidebarCollapseBtn" aria-label="Collapse sidebar">
+          <svg class="transition-transform duration-300" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      </div>
+
+      <p class="sidebar__section-label mb-2 text-[10px] font-medium tracking-[0.2em] text-[#A89F96] uppercase">Workspace</p>
+
+      <nav class="sidebar__nav flex flex-1 flex-col gap-1" aria-label="Admin navigation">
+        <a href="dashboard.html" class="sidebar__nav-item active flex items-center gap-3 rounded-md bg-[#F5EFE0] px-3 py-2.5 text-sm font-medium text-[#1A1714]" title="Overview">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <span>Overview</span>
+        </a>
+        <a href="reservations.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Reservations">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Reservations</span>
+        </a>
+        <a href="rooms.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Rooms">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Rooms</span>
+        </a>
+        <a href="guests.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Guests">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Guests</span>
+        </a>
+        <a href="payments.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Payments">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span>Payments</span>
+        </a>
+        <a href="reports.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Reports">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Reports</span>
+        </a>
+        <a href="settings.html" class="sidebar__nav-item flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#6B6460] transition hover:bg-[#FAF8F5] hover:text-[#1A1714]" title="Settings">
+          <svg class="sidebar__nav-icon h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar__profile mt-4 flex items-center justify-between border-t border-[#E8E2D8] pt-4">
+        <div class="flex items-center gap-3">
+          <div class="sidebar__profile-avatar flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1A1714] text-xs font-medium text-white" id="sidebarAvatar">—</div>
+          <div class="sidebar__profile-info">
+            <p class="sidebar__profile-name text-xs font-medium text-[#1A1714]" id="sidebarName">Admin</p>
+            <p class="sidebar__profile-role text-[11px] text-[#6B6460]">Property manager</p>
+          </div>
+        </div>
+        <button id="adminLogoutBtn" class="cursor-pointer text-[11px] text-[#7A6248] hover:underline" title="Sign out">Sign out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main flex min-w-0 flex-1 flex-col">
+
+      <header class="topnav flex items-center justify-between border-b border-[#E8E2D8] bg-white px-6 py-3.5">
+        <div class="topnav__left flex items-center gap-4">
+          <button class="flex flex-col gap-1 lg:hidden" id="sidebarToggle" aria-label="Toggle sidebar">
+            <span class="block h-0.5 w-5 bg-[#1A1714]"></span>
+            <span class="block h-0.5 w-5 bg-[#1A1714]"></span>
+            <span class="block h-0.5 w-5 bg-[#1A1714]"></span>
+          </button>
+          <nav class="topnav__breadcrumb flex items-center gap-2 text-xs text-[#6B6460]" aria-label="Breadcrumb">
+            <span>Dashboard</span>
+            <span>/</span>
+            <span class="font-medium text-[#1A1714]">Overview</span>
+          </nav>
+        </div>
+        <div class="topnav__right flex items-center gap-4">
+          <div class="hidden items-center gap-2 rounded-md border border-[#E8E2D8] bg-[#FAF8F5] px-3 py-1.5 sm:flex">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9C948B" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="bg-transparent text-xs text-[#1A1714] focus:outline-none" id="searchInput" placeholder="Search…" aria-label="Search" />
+          </div>
+          <span class="hidden text-xs text-[#6B6460] md:inline" id="topnavDate">—</span>
+          <a href="../index.html" class="border border-[#E8E2D8] px-3 py-1.5 text-xs text-[#6B6460] transition hover:border-[#1A1714] hover:text-[#1A1714]">← Back to site</a>
+          <button type="button" data-admin-logout class="cursor-pointer bg-[#1A1714] px-3 py-1.5 text-xs font-medium text-white transition hover:bg-[#7A6248]">Logout</button>
+          <div class="topnav__avatar flex h-8 w-8 items-center justify-center rounded-full bg-[#1A1714] text-xs font-medium text-white" id="topbarAvatar">—</div>
+        </div>
+      </header>
+
+      <main class="admin-page flex-1 space-y-6 p-6 lg:p-8" id="dashboardMain">
+
+        <!-- Welcome -->
+        <section class="welcome-section flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p class="text-[11px] font-medium tracking-[0.2em] text-[#7A6248] uppercase">Your house, at a glance</p>
+            <h1 class="mt-1 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-normal text-[#1A1714] sm:text-4xl" id="welcomeHeadline">Welcome.</h1>
+            <p class="mt-1 text-xs text-[#6B6460]">Live overview from your MongoDB database.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-[#6B6460]" id="welcomeDate">—</span>
+            <a href="reservations.html" class="inline-flex items-center gap-2 bg-[#1A1714] px-4 py-2.5 text-xs font-medium tracking-[0.12em] text-white uppercase transition hover:bg-[#7A6248]">
+              + New reservation
+            </a>
+          </div>
+        </section>
+
+        <!-- KPI CARDS (Populated dynamically from /api/admin/dashboard/overview) -->
+        <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Overview metrics">
+          <article class="border border-[#E8E2D8] bg-white p-5">
+            <p class="text-xs text-[#6B6460]">Occupancy</p>
+            <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" data-stat="occupancy">0%</p>
+            <p class="mt-1 text-xs text-[#9C948B]" data-sub="occupancySub">0 occupied rooms</p>
+          </article>
+
+          <article class="border border-[#E8E2D8] bg-white p-5">
+            <p class="text-xs text-[#6B6460]">Arrivals today</p>
+            <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" data-stat="arrivals">0</p>
+            <p class="mt-1 text-xs text-[#9C948B]" data-sub="arrivalsSub">Total bookings: 0</p>
+          </article>
+
+          <article class="border border-[#E8E2D8] bg-white p-5">
+            <p class="text-xs text-[#6B6460]">Departures today</p>
+            <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" data-stat="departures">0</p>
+            <p class="mt-1 text-xs text-[#9C948B]" data-sub="guestsSub">Registered guests: 0</p>
+          </article>
+
+          <article class="border border-[#E8E2D8] bg-white p-5">
+            <p class="text-xs text-[#6B6460]">Total revenue</p>
+            <p class="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-3xl font-medium text-[#1A1714]" data-stat="revenue">$0</p>
+            <p class="mt-1 text-xs text-[#9C948B]" data-sub="revenueSub">Pending payments: 0</p>
+          </article>
+        </section>
+
+        <!-- MIDDLE ROW: Chart + Room summary -->
+        <section class="grid gap-6 lg:grid-cols-3">
+          <div class="border border-[#E8E2D8] bg-white p-6 lg:col-span-2">
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Occupancy &amp; Bookings</h2>
+                <p class="text-xs text-[#6B6460]">Live property activity</p>
+              </div>
+            </div>
+            <div class="relative h-64 w-full">
+              <canvas id="growthChart" aria-label="Hotel occupancy chart"></canvas>
+            </div>
+          </div>
+
+          <div class="border border-[#E8E2D8] bg-white p-6">
+            <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Rooms</h2>
+            <div class="rooms-bar my-5 flex h-2.5 w-full overflow-hidden rounded-full bg-[#F0EBE3]">
+              <div class="bg-[#1A1714] transition-all" id="barOccupied" style="width: 0%"></div>
+              <div class="bg-[#7A6248] transition-all" id="barAvailable" style="width: 100%"></div>
+            </div>
+            <ul class="space-y-3 text-sm">
+              <li class="flex items-center justify-between border-b border-[#F3EFE9] pb-2">
+                <span class="text-[#6B6460]">Total rooms</span>
+                <span class="font-medium text-[#1A1714]" id="statTotalRooms">0</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-[#F3EFE9] pb-2">
+                <span class="flex items-center gap-2 text-[#6B6460]"><span class="h-2 w-2 rounded-full bg-[#1A1714]"></span>Occupied</span>
+                <span class="font-medium text-[#1A1714]" id="statOccupiedRooms">0</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-[#F3EFE9] pb-2">
+                <span class="flex items-center gap-2 text-[#6B6460]"><span class="h-2 w-2 rounded-full bg-[#7A6248]"></span>Available</span>
+                <span class="font-medium text-[#1A1714]" id="statAvailableRooms">0</span>
+              </li>
+            </ul>
+            <a href="rooms.html" class="mt-5 inline-block text-xs tracking-[0.1em] text-[#7A6248] uppercase hover:underline">Manage rooms →</a>
+          </div>
+        </section>
+
+        <!-- UPCOMING ARRIVALS TABLE -->
+        <section class="border border-[#E8E2D8] bg-white p-6">
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="font-['Cormorant_Garamond',Georgia,serif] text-2xl font-normal text-[#1A1714]">Upcoming arrivals</h2>
+            <a href="reservations.html" class="text-xs text-[#7A6248] hover:underline">View all reservations →</a>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse text-left text-sm" aria-label="Upcoming arrivals">
+              <thead>
+                <tr class="border-b border-[#E8E2D8] text-[11px] font-medium tracking-[0.12em] text-[#9C948B] uppercase">
+                  <th class="py-3 pr-4">Guest</th>
+                  <th class="py-3 pr-4">Room</th>
+                  <th class="py-3 pr-4">Check-in</th>
+                  <th class="py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody id="arrivalsTableBody">
+                <tr>
+                  <td colspan="4" class="py-8 text-center text-xs text-[#9C948B]">Loading upcoming arrivals…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="flex items-center justify-between border-t border-[#E8E2D8] bg-white px-6 py-3 text-xs text-[#6B6460]">
+        <span>Dormiway Admin</span>
+        <span id="syncStatus">Connected to MongoDB</span>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/admin-dashboard.js"></script>
+</body>
+</html>
